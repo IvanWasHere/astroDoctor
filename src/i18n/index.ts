@@ -23,6 +23,7 @@ export const routes = withBase({
   practice: { de: '/die-praxis/', en: '/en/practice/' },
   team: { de: '/team/', en: '/en/team/' },
   services: { de: '/leistungen/', en: '/en/services/' },
+  spectrum: { de: '/behandlungsspektrum/', en: '/en/treatment-spectrum/' },
   hours: { de: '/oeffnungszeiten/', en: '/en/opening-hours/' },
   news: { de: '/aktuelles/', en: '/en/news/' },
   contact: { de: '/kontakt/', en: '/en/contact/' },

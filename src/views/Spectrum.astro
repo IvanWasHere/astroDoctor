@@ -1,0 +1,167 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { routes, type Lang } from '../i18n';
+import photoUltrasound from '../assets/praxis/ultraschall.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Behandlungsspektrum',
+    description:
+      'Behandlungsspektrum der Hausarztpraxis Immensen: Ultraschall, EKG, Langzeit-Blutdruck, Lungenfunktion, Vorsorge, DMP, Impfungen, IGeL und mehr.',
+    eyebrow: 'Unsere Leistungen',
+    h1: 'Behandlungsspektrum',
+    lead: 'Wir behandeln Kinder, Heranwachsende, Erwachsene und Betagte.',
+    mainH: 'Unsere hausärztlichen Möglichkeiten',
+    main: [
+      'Ultraschalluntersuchungen vom Bauchraum',
+      'Jugendschutzuntersuchungen',
+      'EKG (Elektrokardiogramm)',
+      'Langzeit-Blutdruckmessung',
+      'Lungenfunktion',
+      'Gesundheitsuntersuchung alle 3 Jahre',
+      'Hautkrebsscreening alle 2 Jahre',
+      'DMP (Chroniker-Programme / Disease-Management-Programme) für Diabetes, COPD, Asthma und KHK',
+      'Schutzimpfungen (Tetanus, Pneumokokken, Gürtelrose, Corona, Grippe …)',
+      'Prä- und postoperative Betreuung',
+      'Begleitung von Sterbenden und ihren Angehörigen',
+    ],
+    igelH: 'IGeL – individuelle Gesundheitsleistungen für Selbstzahler',
+    igel: [
+      'Atteste',
+      'Reiseberatung, Reiseimpfungen, z. B. Hepatitis A, sowie andere spezielle Reiseimpfungen',
+      'Untersuchungen für Lebensversicherungen',
+      'Laboruntersuchungen, die nicht von der GKV übernommen werden',
+    ],
+    photoAlt: 'Ultraschallgerät im Untersuchungsraum',
+    more: 'Alle Leistungen im Detail →',
+  },
+  en: {
+    title: 'Treatment spectrum',
+    description:
+      'What the family practice in Immensen offers: ultrasound, ECG, 24-hour blood pressure, lung function, check-ups, chronic care programmes, vaccinations, self-pay services and more.',
+    eyebrow: 'Our services',
+    h1: 'Treatment spectrum',
+    lead: 'We treat children, adolescents, adults and older people.',
+    mainH: 'What we offer as family doctors',
+    main: [
+      'Abdominal ultrasound',
+      'Occupational health exams for young workers',
+      'ECG (electrocardiogram)',
+      '24-hour blood pressure monitoring',
+      'Lung function testing',
+      'Health check-up every 3 years',
+      'Skin cancer screening every 2 years',
+      'DMP (structured care programmes for chronic conditions) for diabetes, COPD, asthma and coronary heart disease',
+      'Vaccinations (tetanus, pneumococcus, shingles, COVID-19, flu …)',
+      'Care before and after surgery',
+      'Support for the dying and their families',
+    ],
+    igelH: 'IGeL – self-pay services',
+    igel: [
+      'Medical certificates',
+      'Travel advice and travel vaccinations, e.g. hepatitis A, and other special travel vaccines',
+      'Examinations for life insurance',
+      'Lab tests not covered by statutory health insurance (GKV)',
+    ],
+    photoAlt: 'Ultrasound machine in the examination room',
+    more: 'All services in detail →',
+  },
+}[lang];
+---
+
+<Base title={c.title} description={c.description}>
+  <PageHead eyebrow={c.eyebrow} title={c.h1} lead={c.lead} />
+
+  <section class="wrap spectrum">
+    <div class="lists">
+      <div class="card">
+        <h2>{c.mainH}</h2>
+        <ul>
+          {
+            c.main.map((i) => (
+              <li>
+                <Icon name="check" size={18} />
+                {i}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="card">
+        <h2>{c.igelH}</h2>
+        <ul>
+          {
+            c.igel.map((i) => (
+              <li>
+                <Icon name="check" size={18} />
+                {i}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p><a href={routes.services[lang]}>{c.more}</a></p>
+    </div>
+    <Image src={photoUltrasound} alt={c.photoAlt} widths={[400, 700]} sizes="(max-width: 900px) 100vw, 40vw" class="photo" />
+  </section>
+</Base>
+
+<style>
+  .spectrum {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+    padding-bottom: clamp(3rem, 8vw, 5rem);
+  }
+  .lists {
+    display: grid;
+    gap: 1.25rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  li {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  li :global(svg) {
+    color: var(--brand);
+    flex: none;
+    margin-top: 0.25rem;
+  }
+  .photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+    position: sticky;
+    top: 6rem;
+  }
+  @media (max-width: 900px) {
+    .spectrum {
+      grid-template-columns: 1fr;
+    }
+    .photo {
+      position: static;
+    }
+  }
+</style>

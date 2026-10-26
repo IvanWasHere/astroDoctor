@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
 import { services } from '../data/site';
-import type { Lang } from '../i18n';
+import { routes, type Lang } from '../i18n';
 
 interface Props {
   lang: Lang;
@@ -18,6 +18,7 @@ const c = {
     eyebrow: 'Leistungen',
     h1: 'Allgemeinmedizin mit hausärztlicher Betreuung',
     lead: 'Schildern Sie uns Ihr Anliegen – wir bemühen uns, gemeinsam mit Ihnen eine individuell passende Lösung zu finden.',
+    spectrum: 'Unser Behandlungsspektrum auf einen Blick →',
     igelStrong: 'Hinweis zu IGeL:',
     igel: 'Individuelle Gesundheitsleistungen sind Leistungen, deren Wirksamkeit nicht sicher wissenschaftlich belegt ist. Wissenschaftlich empfohlene Leistungen werden grundsätzlich von den Krankenkassen bezahlt.',
   },
@@ -28,6 +29,7 @@ const c = {
     eyebrow: 'Services',
     h1: 'General practice and family medicine',
     lead: 'Tell us what you need – we will work with you to find a solution that suits you.',
+    spectrum: 'Our treatment spectrum at a glance →',
     igelStrong: 'About self-pay services (IGeL):',
     igel: 'These are services whose benefit has not been firmly established by research. Services that are scientifically recommended are generally paid for by health insurance.',
   },
@@ -35,7 +37,9 @@ const c = {
 ---
 
 <Base title={c.title} description={c.description}>
-  <PageHead eyebrow={c.eyebrow} title={c.h1} lead={c.lead} />
+  <PageHead eyebrow={c.eyebrow} title={c.h1} lead={c.lead}>
+    <p><a href={routes.spectrum[lang]}>{c.spectrum}</a></p>
+  </PageHead>
 
   <section class="wrap svc-list">
     {

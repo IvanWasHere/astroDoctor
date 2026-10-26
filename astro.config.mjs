@@ -24,5 +24,6 @@ export default defineConfig({
   // Alte WordPress-Adressen weiterleiten
   redirects: {
     '/kontakt/kontaktformular/': `${base}/kontakt/#formular`,
+    '/ueber-uns/behandlungsspektrum/': `${base}/behandlungsspektrum/`,
   },
 });
