@@ -2,7 +2,7 @@
 title: Renke Harms übernimmt die Nachfolge von Frau Henne
 date: 2024-11-24
 summary: Ab dem 02.01.2025 geht der Betrieb wie gewohnt weiter – Dr. Ilsemarie Horst und Renke Harms führen die Gemeinschaftspraxis Immensen gemeinsam.
-important: true
+important: false
 ---
 
 Ab dem **02.01.2025** geht der Betrieb in der Gemeinschaftspraxis Immensen wie gewohnt weiter. Als Nachfolger von Frau Henne ist **Renke Harms** in der Praxis tätig.

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
 ---
 
 <Base title="Digitalisierung" description="eAU, E-Rezept, ePA und mehr: Wie die Gemeinschaftspraxis Immensen Schritt für Schritt digitaler wird.">
@@ -27,10 +28,14 @@ import PageHead from '../components/PageHead.astro';
       Ihre Daten kommen.
     </p>
 
+    <h2>Schon umgesetzt</h2>
+    <ul>
+      <li><a href={site.bookingUrl} target="_blank" rel="noopener">Online-Terminbuchung</a> über unseren Dienstleister T2med</li>
+      <li>Videosprechstunde (ebenfalls über die Online-Terminbuchung)</li>
+    </ul>
+
     <h2>Auf unserer Agenda</h2>
     <ul>
-      <li>Videosprechstunde</li>
-      <li>Online-Terminbuchung</li>
       <li>Patienten-App zur Kommunikation mit der Praxis</li>
     </ul>
     <p>

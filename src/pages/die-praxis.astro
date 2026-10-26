@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
+import PracticePhotos from '../components/PracticePhotos.astro';
 import { routes } from '../i18n';
 
 const values = [
@@ -38,6 +39,8 @@ const values = [
     }
   </section>
 
+  <PracticePhotos />
+
   <article class="narrow prose section">
     <h2>Organisation der Praxis</h2>
     <p>
@@ -73,7 +76,7 @@ const values = [
 
     <p class="signature">
       Herzlichst!<br />
-      <strong>Dr. Ilsemarie Horst und Renke Harms</strong>
+      <strong>Dr. Jelena Tomic und Dr. Ilsemarie Horst</strong>
     </p>
 
     <p><a href={routes.digital.de}>Wie wir die Praxis digitalisieren →</a></p>

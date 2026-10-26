@@ -57,7 +57,7 @@ export const ui = {
     language: 'Sprache',
     tagline: 'Hausärztliche Versorgung · Allgemeinmedizin und Familienmedizin',
     defaultDescription:
-      'Gemeinschaftspraxis Immensen in Lehrte-Immensen: Dr. med. Ilsemarie Horst & Renke Harms. Hausärztliche Versorgung für Kinder, Erwachsene und Senioren. Termine unter 05175 9205-0.',
+      'Gemeinschaftspraxis Immensen in Lehrte-Immensen: Dr. med. Jelena Tomic & Dr. med. Ilsemarie Horst. Hausärztliche Versorgung für Kinder, Erwachsene und Senioren. Termine unter 05175 9205-0.',
     homeTitle: 'Gemeinschaftspraxis Immensen – Hausarztpraxis in Lehrte-Immensen',
     contact: 'Kontakt',
     phoneShort: 'Tel.',
@@ -109,7 +109,7 @@ export const ui = {
     language: 'Language',
     tagline: 'Family doctors · General practice and family medicine',
     defaultDescription:
-      'Gemeinschaftspraxis Immensen in Lehrte-Immensen, Germany: Dr. med. Ilsemarie Horst & Renke Harms. Family doctors for children, adults and seniors. Appointments: +49 5175 9205-0.',
+      'Gemeinschaftspraxis Immensen in Lehrte-Immensen, Germany: Dr. med. Jelena Tomic & Dr. med. Ilsemarie Horst. Family doctors for children, adults and seniors. Appointments: +49 5175 9205-0.',
     homeTitle: 'Gemeinschaftspraxis Immensen – Family doctors in Lehrte-Immensen',
     contact: 'Contact',
     phoneShort: 'Phone',

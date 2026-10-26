@@ -1,12 +1,14 @@
 // Zentrale Praxisdaten. Änderungen hier wirken sich auf die ganze Website aus.
 // Texte, die übersetzt werden, stehen als { de, en }.
+import type { ImageMetadata } from 'astro';
 import type { Lang, RouteKey } from '../i18n';
+import photoHorst from '../assets/praxis/dr-horst.jpg';
 
 export const site = {
   name: 'Gemeinschaftspraxis Immensen',
-  doctors: 'Dr. med. Ilsemarie Horst & Renke Harms',
+  doctors: 'Dr. med. Jelena Tomic & Dr. med. Ilsemarie Horst',
   url: import.meta.env.SITE,
-  street: 'Bauernstraße 36',
+  street: 'Bauernstraße 36/2',
   zip: '31275',
   city: 'Lehrte-Immensen',
   phone: '05175 9205-0',
@@ -14,8 +16,12 @@ export const site = {
   phoneHref: 'tel:+495175920500',
   fax: '05175 9205-66',
   faxIntl: '+49 5175 9205-66',
-  // TODO: E-Mail-Adresse der Praxis eintragen (wird dann automatisch angezeigt)
-  email: '',
+  email: 'info@hausarzt-immensen.de',
+  // KIM-Adresse für elektronische Arztbriefe (nur für Praxen/Kliniken)
+  kim: 'immensen@kv.dox.kim.telematik',
+  // Online-Terminbuchung über T2med (auch Videosprechstunde)
+  bookingUrl: 'https://www.termin-patmed.de/p/a741ead2-cf96-4e57-a23a-8626aee0f46c',
+  facebook: 'https://www.facebook.com/Arztpraxis.Immensen',
   // Formular-Endpunkt (z. B. Formspree, Web3Forms oder eigener Server).
   // Leer lassen = Formulare zeigen einen Hinweis und verweisen aufs Telefon.
   formEndpoint: '',
@@ -34,98 +40,91 @@ export const navKeys: RouteKey[] = ['practice', 'team', 'services', 'hours', 'ne
 
 type L = Record<Lang, string>;
 
-// Öffnungszeiten (gültig ab 01.01.2025). day: 1 = Montag … 5 = Freitag
+// Öffnungszeiten (Stand: hausarzt-immensen.de, Oktober 2026). day: 1 = Montag … 5 = Freitag
 // who: null = allgemeine „Sprechstunde“
 export type Slot = { from: string; to: string; who: string | null };
 export const hours: { day: number; slots: Slot[] }[] = [
   {
     day: 1,
     slots: [
-      { from: '07:30', to: '12:00', who: 'Dr. Horst & Harms' },
-      // TODO: Auf der alten Seite stand hier noch „Frau Henne“ – bitte Arzt/Ärztin ergänzen
-      { from: '13:00', to: '18:00', who: null },
+      { from: '07:30', to: '12:00', who: null },
+      { from: '13:00', to: '17:00', who: null },
     ],
   },
   {
     day: 2,
     slots: [
-      { from: '07:30', to: '12:00', who: 'Harms' },
-      { from: '13:00', to: '18:00', who: 'Dr. Horst' },
+      { from: '07:30', to: '12:00', who: null },
+      { from: '13:00', to: '18:00', who: null },
     ],
   },
-  { day: 3, slots: [{ from: '07:30', to: '12:00', who: 'Dr. Horst' }] },
+  { day: 3, slots: [{ from: '07:30', to: '12:00', who: null }] },
   {
     day: 4,
     slots: [
-      { from: '07:30', to: '12:00', who: 'Dr. Horst' },
-      { from: '13:00', to: '18:00', who: 'Harms' },
+      { from: '07:30', to: '12:00', who: null },
+      { from: '13:00', to: '18:00', who: null },
     ],
   },
-  { day: 5, slots: [{ from: '07:30', to: '12:00', who: 'Harms' }] },
+  { day: 5, slots: [{ from: '07:30', to: '12:00', who: null }] },
 ];
 
 export const team: {
   name: string;
   initials: string;
+  photo?: ImageMetadata;
   role: L;
   bio: L[];
   cv: { year: string; text: L }[];
 }[] = [
   {
-    name: 'Dr. med. Ilsemarie Horst',
-    initials: 'IH',
+    name: 'Dr. med. Jelena Tomic',
+    initials: 'JT',
     role: {
-      de: 'Hausärztin · Fachärztin für Allgemeinmedizin',
-      en: 'Family doctor · Specialist in general medicine',
+      de: 'Hausärztin · Fachärztin für Allgemeinmedizin · Partnerin seit 1. Juli 2026',
+      en: 'Family doctor · Specialist in general medicine · Partner since 1 July 2026',
     },
     bio: [
       {
-        de: 'Seit 2016 ist Frau Dr. Horst Hausärztin in der Gemeinschaftspraxis Immensen.',
-        en: 'Dr. Horst has been a family doctor at Gemeinschaftspraxis Immensen since 2016.',
+        de: 'Dr. Jelena Tomic lebt mit ihrer Familie in Lehrte. Lange hat sie im Lehrter Krankenhaus in der Anästhesie und in der Hausarztpraxis in Sievershausen gearbeitet.',
+        en: 'Dr. Jelena Tomic lives in Lehrte with her family. For many years she worked in anaesthesiology at Lehrte hospital and at the family practice in Sievershausen.',
       },
     ],
     cv: [],
   },
   {
-    name: 'Renke Harms',
-    initials: 'RH',
+    name: 'Dr. med. Ilsemarie Horst',
+    initials: 'IH',
+    photo: photoHorst,
     role: {
-      de: 'Hausarzt · Facharzt für Allgemeinmedizin · Facharzt für Anästhesiologie · Zusatzbezeichnung Notfallmedizin',
-      en: 'Family doctor · Specialist in general medicine · Specialist in anaesthesiology · Additional qualification in emergency medicine',
+      de: 'Hausärztin · Fachärztin für Allgemeinmedizin · Weiterbildungsbefugt (30 Monate)',
+      en: 'Family doctor · Specialist in general medicine · Authorised trainer (30 months)',
     },
     bio: [
       {
-        de: 'Seit dem 01.01.2025 als Hausarzt in der Gemeinschaftspraxis Immensen tätig. Langjährige klinische Erfahrung als Anästhesist, Intensivmediziner und Notarzt in unterschiedlichen Kliniken in der Region Hannover.',
-        en: 'Family doctor at Gemeinschaftspraxis Immensen since 1 January 2025. Many years of hospital experience as an anaesthetist, intensive care physician and emergency doctor at several hospitals in the Hannover region.',
+        de: 'Dr. Ilsemarie Horst stammt aus Burgdorf. Sie ist seit 1986 Ärztin und hat jahrelange Erfahrung u. a. in der Hausarzt- und Familienmedizin, der Altersheilkunde, der Dermatologie, der Kardiologie, der Therapie von Suchterkrankungen und der Nierenheilkunde.',
+        en: 'Dr. Ilsemarie Horst comes from Burgdorf. She has been a doctor since 1986 and has many years of experience in family medicine, geriatrics, dermatology, cardiology, addiction treatment and nephrology, among other fields.',
       },
       {
-        de: 'Geboren in Oldenburg (Oldb), Vater von zwei Kindern. Zunächst Ausbildung zum Rettungsassistenten, danach Studium der Humanmedizin in Hannover. Von 1996 bis 2000 im Rettungsdienst des Landkreises Oldenburg, seit 2000 als Rettungsassistent und seit 2008 als Notarzt in der Region Hannover tätig – unter anderem an der DRK-Rettungswache Lehrte.',
-        en: 'Born in Oldenburg (Oldb), father of two. Trained as a paramedic first, then studied medicine in Hannover. Worked in the Oldenburg district ambulance service from 1996 to 2000; in the Hannover region as a paramedic since 2000 and as an emergency doctor since 2008 – including at the German Red Cross ambulance station in Lehrte.',
+        de: 'Die Ärztekammer Niedersachsen hat sie ermächtigt, angehende Hausärztinnen und Hausärzte über 30 Monate weiterzubilden.',
+        en: 'The Lower Saxony Medical Association has authorised her to train future family doctors for up to 30 months.',
       },
     ],
-    cv: [
-      { year: '2007 – 2009', text: { de: 'Diakovere Henriettenstiftung', en: 'Diakovere Henriettenstiftung' } },
-      { year: '2009 – 2014', text: { de: 'KRH Siloah, Oststadt-Heidehaus', en: 'KRH Siloah, Oststadt-Heidehaus' } },
-      { year: '2014 – 2016', text: { de: 'Diakovere Annastift', en: 'Diakovere Annastift' } },
-      { year: '2016 – 2022', text: { de: 'Paracelsus-Klinik am Silbersee', en: 'Paracelsus-Klinik am Silbersee' } },
-      {
-        year: '2022 – 2024',
-        text: {
-          de: 'Weiterbildung Allgemeinmedizin in Bad Münder und Mellendorf',
-          en: 'Specialist training in general medicine in Bad Münder and Mellendorf',
-        },
-      },
-      { year: '2024', text: { de: 'Facharztanerkennung Allgemeinmedizin', en: 'Board certification in general medicine' } },
-    ],
+    cv: [],
   },
   {
-    name: 'Dr. med. Yeliz Hörl-Aydemir',
-    initials: 'YH',
+    name: 'Frau Nwankwo',
+    initials: 'N',
     role: {
-      de: 'Weiterbildungsärztin zur Fachärztin für Allgemeinmedizin',
-      en: 'Doctor in specialist training for general medicine',
+      de: 'Hausärztin in Weiterbildung',
+      en: 'Family doctor in specialist training',
     },
-    bio: [],
+    bio: [
+      {
+        de: 'Unsere Hausärztin in Weiterbildung hat sich erfolgreich bei uns eingearbeitet.',
+        en: 'Our doctor in training has settled in well at the practice.',
+      },
+    ],
     cv: [],
   },
 ];
@@ -138,7 +137,8 @@ export const services: { id: string; icon: string; title: L; text?: L; items?: L
     items: [
       { de: 'EKG', en: 'ECG' },
       { de: 'Notfallversorgung', en: 'Emergency care' },
-      { de: 'Sonografie (Ultraschall)', en: 'Ultrasound' },
+      { de: 'Sonografie (Ultraschall) des Bauchraums', en: 'Abdominal ultrasound' },
+      { de: 'Langzeit-Blutdruckmessung', en: '24-hour blood pressure monitoring' },
       { de: 'Lungenfunktionsuntersuchung', en: 'Lung function testing' },
       { de: 'Blutentnahmen', en: 'Blood tests' },
     ],
@@ -148,8 +148,8 @@ export const services: { id: string; icon: string; title: L; text?: L; items?: L
     icon: 'syringe',
     title: { de: 'Impfungen', en: 'Vaccinations' },
     text: {
-      de: 'Nach den Empfehlungen der STIKO am RKI: Überprüfung des Impfpasses sowie Standard- und Indikationsimpfungen.',
-      en: 'Following the recommendations of Germany’s Standing Committee on Vaccination (STIKO): we check your vaccination record and give routine and indication-based vaccines.',
+      de: 'Nach den Empfehlungen der STIKO am RKI: Überprüfung des Impfpasses sowie Standard- und Indikationsimpfungen – z. B. Tetanus, Pneumokokken, Gürtelrose, Corona und Grippe.',
+      en: 'Following the recommendations of Germany’s Standing Committee on Vaccination (STIKO): we check your vaccination record and give routine and indication-based vaccines – e.g. tetanus, pneumococcus, shingles, COVID-19 and flu.',
     },
   },
   {
@@ -157,9 +157,9 @@ export const services: { id: string; icon: string; title: L; text?: L; items?: L
     icon: 'search',
     title: { de: 'Früherkennung', en: 'Screening & check-ups' },
     items: [
-      { de: 'Gesundheitsuntersuchung (Check-up)', en: 'Health check-up' },
+      { de: 'Gesundheitsuntersuchung (Check-up) alle 3 Jahre', en: 'Health check-up every 3 years' },
       { de: 'Jugendarbeitsschutzuntersuchung', en: 'Occupational health exam for young workers' },
-      { de: 'Hautkrebsscreening', en: 'Skin cancer screening' },
+      { de: 'Hautkrebsscreening alle 2 Jahre', en: 'Skin cancer screening every 2 years' },
       { de: 'Krebsfrüherkennung beim Mann', en: 'Cancer screening for men' },
       { de: 'Darmkrebsfrüherkennung', en: 'Bowel cancer screening' },
     ],
@@ -217,7 +217,7 @@ export const services: { id: string; icon: string; title: L; text?: L; items?: L
     icon: 'home',
     title: { de: 'Begleitung & Betreuung', en: 'Ongoing care & support' },
     items: [
-      { de: 'Hausbesuche in Einzelfällen oder besonderen Situationen', en: 'Home visits in individual cases or special situations' },
+      { de: 'Hausbesuche, wenn es medizinisch notwendig ist', en: 'Home visits when medically necessary' },
       { de: 'Beständige Betreuung älterer Menschen', en: 'Continuous care for older people' },
       { de: 'Hausärztliche Versorgung des nahe gelegenen betreuten Wohnens', en: 'GP care for the nearby assisted-living residence' },
       { de: 'Begleitung und Hilfe für Sterbende und ihre Familien', en: 'Support for the dying and their families' },
@@ -233,8 +233,15 @@ export const services: { id: string; icon: string; title: L; text?: L; items?: L
     icon: 'plane',
     title: { de: 'Individuelle Gesundheitsleistungen (IGeL)', en: 'Self-pay services (IGeL)' },
     text: {
-      de: 'Zum Beispiel Reiseberatung vor Fernreisen, Reiseimpfungen und Malaria-Prophylaxe. Diese Leistungen zahlen die gesetzlichen Krankenkassen nicht – Sie erhalten dafür eine Rechnung von uns.',
-      en: 'For example travel advice before long-haul trips, travel vaccinations and malaria prevention. Statutory health insurance does not cover these services – we will send you an invoice.',
+      de: 'Diese Leistungen zahlen die gesetzlichen Krankenkassen nicht – Sie erhalten dafür eine Rechnung von uns.',
+      en: 'Statutory health insurance does not cover these services – we will send you an invoice.',
     },
+    items: [
+      { de: 'Atteste', en: 'Medical certificates' },
+      { de: 'Reiseberatung und Reiseimpfungen, z. B. Hepatitis A', en: 'Travel advice and travel vaccines, e.g. hepatitis A' },
+      { de: 'Malaria-Prophylaxe', en: 'Malaria prevention' },
+      { de: 'Untersuchungen für Lebensversicherungen', en: 'Examinations for life insurance' },
+      { de: 'Laboruntersuchungen, die die GKV nicht übernimmt', en: 'Lab tests not covered by statutory insurance' },
+    ],
   },
 ];

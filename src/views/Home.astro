@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Hills from '../components/Hills.astro';
@@ -7,6 +8,8 @@ import HoursTable from '../components/HoursTable.astro';
 import { site, team, services, directionsLink, mapsLink, phoneFor } from '../data/site';
 import { routes, fmtDate, type Lang } from '../i18n';
 import { getNews, newsUrl } from '../i18n/news';
+import photoDoctors from '../assets/praxis/aerztinnen.jpg';
+import photoBuilding from '../assets/praxis/gebaeude.jpg';
 
 interface Props {
   lang: Lang;
@@ -20,7 +23,7 @@ const c = {
   de: {
     eyebrow: 'Hausarztpraxis in Lehrte-Immensen',
     h1: 'Hausärztliche Versorgung für die ganze Familie.',
-    lead: 'Dr. med. Ilsemarie Horst, Renke Harms und Team begleiten Kinder, Erwachsene und Senioren – persönlich, wertschätzend und mitten im Ort.',
+    lead: 'Dr. med. Jelena Tomic, Dr. med. Ilsemarie Horst und Team begleiten Kinder, Erwachsene und Senioren – persönlich, wertschätzend und mitten im Ort.',
     ctaContact: 'Kontakt & Rezepte',
     glance: 'Praxis auf einen Blick',
     route: 'Route planen',
@@ -28,7 +31,7 @@ const c = {
     accessText: 'Erdgeschoss, Parkplätze direkt vor Ort',
     fax: 'Fax',
     quick: [
-      { href: site.phoneHref, icon: 'calendar', title: 'Termin vereinbaren', text: `Telefonisch unter ${phone}` },
+      { href: site.bookingUrl, icon: 'calendar', title: 'Termin online buchen', text: 'Auch Videosprechstunde möglich', external: true },
       { href: `${r('contact')}#rezept`, icon: 'pill', title: 'Rezept anfordern', text: 'Folgerezepte bequem online bestellen' },
       { href: r('hours'), icon: 'clock', title: 'Sprechzeiten', text: 'Wann wir für Sie da sind' },
       { href: r('services'), icon: 'pulse', title: 'Leistungen', text: 'Von Vorsorge bis Wundversorgung' },
@@ -40,7 +43,14 @@ const c = {
     welcomeText:
       'Unsere erfahrenen Mitarbeiterinnen sind zum Teil schon seit Jahrzehnten in der Praxis. Wir bieten die hausarztzentrierte Versorgung der großen gesetzlichen Krankenkassen an und bilden selbst Medizinische Fachangestellte sowie Hausärztinnen und Hausärzte aus.',
     apptStrong: 'Unsere Sprechstunde ist terminbasiert.',
-    apptText: 'Bitte vereinbaren Sie vor Ihrem Besuch einen Termin.',
+    apptText: `Bitte vereinbaren Sie vor Ihrem Besuch einen Termin – telefonisch ab 7:30 Uhr unter ${phone} oder online.`,
+    bookOnline: 'Termin online buchen',
+    newPatients: 'Wir nehmen gern neue Patientinnen und Patienten auf!',
+    visitsStrong: 'Hausbesuche:',
+    visitsText: 'Bei medizinischer Notwendigkeit besuchen wir Sie zu Hause.',
+    photoDoctorsAlt: 'Dr. Jelena Tomic und Dr. Ilsemarie Horst in der Praxis',
+    photoDoctorsCaption: 'Dr. Jelena Tomic und Dr. Ilsemarie Horst – seit 1. Juli 2026 Partnerinnen.',
+    photoBuildingAlt: 'Eingang der Praxis, Bauernstraße 36/2 in Immensen',
     morePractice: 'Mehr über unsere Praxis →',
     teamEyebrow: 'Ärztinnen & Ärzte',
     teamH: 'Unser ärztliches Team',
@@ -60,7 +70,7 @@ const c = {
   en: {
     eyebrow: 'Family doctors in Lehrte-Immensen',
     h1: 'Family medicine for the whole family.',
-    lead: 'Dr. med. Ilsemarie Horst, Renke Harms and their team care for children, adults and seniors – personally, respectfully and right in the village.',
+    lead: 'Dr. med. Jelena Tomic, Dr. med. Ilsemarie Horst and their team care for children, adults and seniors – personally, respectfully and right in the village.',
     ctaContact: 'Contact & prescriptions',
     glance: 'The practice at a glance',
     route: 'Get directions',
@@ -68,7 +78,7 @@ const c = {
     accessText: 'Ground floor, parking right outside',
     fax: 'Fax',
     quick: [
-      { href: site.phoneHref, icon: 'calendar', title: 'Book an appointment', text: `By phone: ${phone}` },
+      { href: site.bookingUrl, icon: 'calendar', title: 'Book online', text: 'Video consultations available too', external: true },
       { href: `${r('contact')}#rezept`, icon: 'pill', title: 'Request a prescription', text: 'Order repeat prescriptions online' },
       { href: r('hours'), icon: 'clock', title: 'Opening hours', text: 'When we are here for you' },
       { href: r('services'), icon: 'pulse', title: 'Services', text: 'From check-ups to wound care' },
@@ -80,7 +90,14 @@ const c = {
     welcomeText:
       'Some of our experienced staff have been with the practice for decades. We take part in the GP-centred care programmes of the major statutory health insurers, and we train medical assistants and future family doctors ourselves.',
     apptStrong: 'We see patients by appointment.',
-    apptText: 'Please book an appointment before your visit.',
+    apptText: `Please book before your visit – by phone from 7:30 on ${phone} or online.`,
+    bookOnline: 'Book online',
+    newPatients: 'We are happy to take on new patients!',
+    visitsStrong: 'Home visits:',
+    visitsText: 'If it is medically necessary, we will visit you at home.',
+    photoDoctorsAlt: 'Dr. Jelena Tomic and Dr. Ilsemarie Horst at the practice',
+    photoDoctorsCaption: 'Dr. Jelena Tomic and Dr. Ilsemarie Horst – partners since 1 July 2026.',
+    photoBuildingAlt: 'Entrance to the practice, Bauernstraße 36/2 in Immensen',
     morePractice: 'More about our practice →',
     teamEyebrow: 'Our doctors',
     teamH: 'Meet our doctors',
@@ -148,7 +165,7 @@ const c = {
     <div class="wrap quick">
       {
         c.quick.map((q) => (
-          <a href={q.href} class="quick-item">
+          <a href={q.href} class="quick-item" {...(q.external ? { target: '_blank', rel: 'noopener' } : {})}>
             <span class="quick-icon">
               <Icon name={q.icon} />
             </span>
@@ -167,13 +184,25 @@ const c = {
       <div>
         <span class="eyebrow">{c.welcomeEyebrow}</span>
         <h2>{c.welcomeH}</h2>
+        <figure class="photo">
+          <Image src={photoDoctors} alt={c.photoDoctorsAlt} widths={[480, 700]} sizes="(max-width: 900px) 100vw, 40vw" />
+          <figcaption>{c.photoDoctorsCaption}</figcaption>
+        </figure>
       </div>
       <div>
         <p class="lead">{c.welcomeLead}</p>
         <p>{c.welcomeText}</p>
+        <p><strong>{c.newPatients}</strong></p>
         <div class="notice">
           <Icon name="calendar" />
-          <p><strong>{c.apptStrong}</strong> {c.apptText}</p>
+          <p>
+            <strong>{c.apptStrong}</strong> {c.apptText}
+            <a href={site.bookingUrl} target="_blank" rel="noopener">{c.bookOnline} →</a>
+          </p>
+        </div>
+        <div class="notice">
+          <Icon name="home" />
+          <p><strong>{c.visitsStrong}</strong> {c.visitsText}</p>
         </div>
         <p style="margin-top:1.25rem"><a href={r('practice')}>{c.morePractice}</a></p>
       </div>
@@ -193,9 +222,13 @@ const c = {
         {
           team.map((m) => (
             <article class="person">
-              <span class="avatar" aria-hidden="true">
-                {m.initials}
-              </span>
+              {m.photo ? (
+                <Image src={m.photo} alt="" width={128} height={128} class="avatar avatar-photo" />
+              ) : (
+                <span class="avatar" aria-hidden="true">
+                  {m.initials}
+                </span>
+              )}
               <h3>{m.name}</h3>
               <p class="muted">{m.role[lang]}</p>
             </article>
@@ -236,6 +269,7 @@ const c = {
         <p class="muted">
           {c.hoursText} <a href="tel:116117"><strong>116 117</strong></a>{c.hoursOr} <a href="tel:112"><strong>112</strong></a>.
         </p>
+        <Image src={photoBuilding} alt={c.photoBuildingAlt} widths={[400, 700]} sizes="(max-width: 900px) 100vw, 35vw" class="building" />
         <a class="map-card" href={mapsLink} target="_blank" rel="noopener">
           <Icon name="pin" size={28} />
           <span>
@@ -435,6 +469,34 @@ const c = {
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 1.1rem;
+  }
+
+  .avatar-photo {
+    object-fit: cover;
+    object-position: top;
+  }
+  .photo {
+    margin: 1.75rem 0 0;
+  }
+  .photo :global(img),
+  .building {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    display: block;
+  }
+  .photo figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .building {
+    margin-top: 1.5rem;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .notice + .notice {
+    margin-top: 0.75rem;
   }
 
   .svc-grid {

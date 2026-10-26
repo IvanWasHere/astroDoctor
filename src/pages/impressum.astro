@@ -14,7 +14,8 @@ import { site } from '../data/site';
     <h2>Angaben gemäß § 5 DDG</h2>
     <p>
       {site.name}<br />
-      Dr. med. Ilsemarie Horst und Renke Harms<br />
+      Dr. med. Jelena Tomic und Dr. med. Ilsemarie Horst<br />
+      Fachärztinnen für Allgemeinmedizin<br />
       {site.street}<br />
       {site.zip} {site.city}
     </p>
@@ -23,19 +24,20 @@ import { site } from '../data/site';
     <p>
       Telefon: {site.phone}<br />
       Telefax: {site.fax}<br />
-      E-Mail: {site.email || '[E-Mail-Adresse]'}
+      E-Mail: {site.email || '[E-Mail-Adresse]'}<br />
+      KIM-Adresse (für e-Arztbriefe): {site.kim}
     </p>
 
     <h2>Berufsrechtliche Angaben</h2>
     <p>
       Gesetzliche Berufsbezeichnung: Ärztin / Arzt (verliehen in der Bundesrepublik Deutschland)<br />
-      Zuständige Ärztekammer: {site.chamber}, Karl-Wiechert-Allee 18–22, 30625 Hannover<br />
-      Zuständige Kassenärztliche Vereinigung: Kassenärztliche Vereinigung Niedersachsen<br />
+      Zuständige Ärztekammer: {site.chamber}, Berliner Allee 20, 30175 Hannover<br />
+      Zuständige Kassenärztliche Vereinigung: Kassenärztliche Vereinigung Niedersachsen, Bezirksstelle Hannover, Berliner Allee 20, 30175 Hannover<br />
       Berufsrechtliche Regelungen: Berufsordnung der Ärztekammer Niedersachsen, Heilberufsgesetz Niedersachsen
     </p>
-    <p>Rechtsform: [z. B. Gemeinschaftspraxis / Berufsausübungsgemeinschaft (GbR)]</p>
+    <p>Rechtsform: Gemeinschaftspraxis</p>
 
     <h2>Verantwortlich für den Inhalt</h2>
-    <p>[Name], Anschrift wie oben</p>
+    <p>Dr. Ilsemarie Horst, Anschrift wie oben</p>
   </article>
 </Base>

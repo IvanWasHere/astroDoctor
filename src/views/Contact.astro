@@ -23,6 +23,8 @@ const c = {
     phone: 'Telefon',
     fax: 'Fax',
     email: 'E-Mail',
+    book: 'Termin online buchen',
+    bookText: 'Auch Videosprechstunde',
     address: 'Adresse',
     offline: 'Die Online-Formulare sind derzeit noch nicht freigeschaltet. Bitte rufen Sie uns an:',
     contactH: 'Kontaktformular',
@@ -58,6 +60,8 @@ const c = {
     phone: 'Phone',
     fax: 'Fax',
     email: 'Email',
+    book: 'Book online',
+    bookText: 'Video consultations too',
     address: 'Address',
     offline: 'The online forms are not available yet. Please give us a call:',
     contactH: 'Contact form',
@@ -97,6 +101,11 @@ const consent = { a: c.consentA, link: c.consentLink, b: c.consentB };
       <Icon name="phone" size={26} />
       <span class="label">{c.phone}</span>
       <strong>{phone}</strong>
+    </a>
+    <a href={site.bookingUrl} target="_blank" rel="noopener" class="card c-item">
+      <Icon name="calendar" size={26} />
+      <span class="label">{c.book}</span>
+      <strong>{c.bookText}</strong>
     </a>
     <div class="card c-item">
       <Icon name="fax" size={26} />

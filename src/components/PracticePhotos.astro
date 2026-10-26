@@ -1,0 +1,56 @@
+---
+// Fotos aus der Praxis (übernommen von hausarzt-immensen.de)
+import { Image } from 'astro:assets';
+import { getLang } from '../i18n';
+import building from '../assets/praxis/gebaeude.jpg';
+import reception from '../assets/praxis/empfang.jpg';
+import ultrasound from '../assets/praxis/ultraschall.jpg';
+
+const lang = getLang(Astro.url);
+const photos = [
+  { src: building, de: 'Eingang der Praxis in der Bauernstraße 36/2', en: 'Practice entrance at Bauernstraße 36/2' },
+  { src: reception, de: 'Unser Empfang', en: 'Our reception' },
+  { src: ultrasound, de: 'Ultraschallgerät im Untersuchungsraum', en: 'Ultrasound machine in the examination room' },
+];
+---
+
+<section class="wrap photos" aria-label={lang === 'de' ? 'Fotos aus der Praxis' : 'Photos of the practice'}>
+  {
+    photos.map((p) => (
+      <figure>
+        <Image src={p.src} alt={p[lang]} widths={[400, 700]} sizes="(max-width: 700px) 100vw, 33vw" />
+        <figcaption>{p[lang]}</figcaption>
+      </figure>
+    ))
+  }
+</section>
+
+<style>
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: clamp(2rem, 5vw, 3rem);
+  }
+  figure {
+    margin: 0;
+  }
+  figure :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 700px) {
+    .photos {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { team } from '../data/site';
@@ -13,7 +14,7 @@ const c = {
   de: {
     title: 'Team',
     description:
-      'Das Team der Gemeinschaftspraxis Immensen: Dr. med. Ilsemarie Horst, Renke Harms, Dr. med. Yeliz Hörl-Aydemir und unsere MFA.',
+      'Das Team der Gemeinschaftspraxis Immensen: Dr. med. Jelena Tomic, Dr. med. Ilsemarie Horst, unsere Hausärztin in Weiterbildung und unsere MFA.',
     h1: 'Menschen, die für Sie da sind',
     lead: 'Ärztinnen, Ärzte und Medizinische Fachangestellte – mit viel Erfahrung und Herz.',
     cv: 'Beruflicher Werdegang',
@@ -27,7 +28,7 @@ const c = {
   en: {
     title: 'Team',
     description:
-      'The team at Gemeinschaftspraxis Immensen: Dr. med. Ilsemarie Horst, Renke Harms, Dr. med. Yeliz Hörl-Aydemir and our medical assistants.',
+      'The team at Gemeinschaftspraxis Immensen: Dr. med. Jelena Tomic, Dr. med. Ilsemarie Horst, our doctor in training and our medical assistants.',
     h1: 'The people who look after you',
     lead: 'Doctors and medical assistants – with plenty of experience and heart.',
     cv: 'Career',
@@ -48,9 +49,13 @@ const c = {
     {
       team.map((m) => (
         <article class="card person">
-          <span class="avatar" aria-hidden="true">
-            {m.initials}
-          </span>
+          {m.photo ? (
+            <Image src={m.photo} alt={m.name} width={224} height={224} class="avatar avatar-photo" />
+          ) : (
+            <span class="avatar" aria-hidden="true">
+              {m.initials}
+            </span>
+          )}
           <div>
             <h2>{m.name}</h2>
             <p class="role">{m.role[lang]}</p>
@@ -127,6 +132,11 @@ const c = {
     font-family: var(--font-serif);
     font-size: clamp(1.5rem, 4vw, 2.3rem);
     font-weight: 600;
+  }
+  .avatar-photo {
+    height: auto;
+    object-fit: cover;
+    object-position: top;
   }
   .cv {
     list-style: none;

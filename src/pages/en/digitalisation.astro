@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import { site } from '../../data/site';
 ---
 
 <Base title="Going digital" description="Sick notes, e-prescriptions, electronic patient records and more: how Gemeinschaftspraxis Immensen is going digital step by step.">
@@ -23,10 +24,14 @@ import PageHead from '../../components/PageHead.astro';
     </p>
     <p>We are gradually digitalising individual processes at our practice, hopefully making them simpler, so you can get to your data easily.</p>
 
+    <h2>Already available</h2>
+    <ul>
+      <li><a href={site.bookingUrl} target="_blank" rel="noopener">Online appointment booking</a> via our provider T2med</li>
+      <li>Video consultations (also booked online)</li>
+    </ul>
+
     <h2>On our agenda</h2>
     <ul>
-      <li>Video consultations</li>
-      <li>Online appointment booking</li>
       <li>A patient app for communicating with the practice</li>
     </ul>
     <p>

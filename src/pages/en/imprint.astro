@@ -14,7 +14,8 @@ import { site } from '../../data/site';
     <h2>Information pursuant to § 5 DDG (German Digital Services Act)</h2>
     <p>
       {site.name}<br />
-      Dr. med. Ilsemarie Horst and Renke Harms<br />
+      Dr. med. Jelena Tomic and Dr. med. Ilsemarie Horst<br />
+      Specialists in general medicine<br />
       {site.street}<br />
       {site.zip} {site.city}<br />
       Germany
@@ -24,19 +25,20 @@ import { site } from '../../data/site';
     <p>
       Phone: {site.phoneIntl}<br />
       Fax: {site.faxIntl}<br />
-      Email: {site.email || '[email address]'}
+      Email: {site.email || '[email address]'}<br />
+      KIM address (for electronic doctors' letters): {site.kim}
     </p>
 
     <h2>Professional information</h2>
     <p>
       Professional title: Ärztin / Arzt (physician), awarded in the Federal Republic of Germany<br />
-      Competent medical association: {site.chamber} (Lower Saxony Medical Association), Karl-Wiechert-Allee 18–22, 30625 Hannover<br />
+      Competent medical association: {site.chamber} (Lower Saxony Medical Association), Berliner Allee 20, 30175 Hannover<br />
       Competent association of statutory health insurance physicians: Kassenärztliche Vereinigung Niedersachsen<br />
       Professional regulations: Professional Code of the Ärztekammer Niedersachsen, Lower Saxony Health Professions Act (HKG)
     </p>
-    <p>Legal form: [e.g. joint practice / Berufsausübungsgemeinschaft (GbR)]</p>
+    <p>Legal form: joint practice (Gemeinschaftspraxis)</p>
 
     <h2>Responsible for content</h2>
-    <p>[Name], address as above</p>
+    <p>Dr. Ilsemarie Horst, address as above</p>
   </article>
 </Base>
