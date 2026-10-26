@@ -1,0 +1,109 @@
+---
+// Zeigt live „Jetzt geöffnet / geschlossen“ (Zeitzone Europe/Berlin), in der Seitensprache.
+import { hours } from '../data/site';
+import { getLang, useT } from '../i18n';
+interface Props {
+  variant?: 'dark' | 'light';
+}
+const { variant = 'dark' } = Astro.props;
+const t = useT(getLang(Astro.url));
+const i18n = { ...t.status, days: t.days };
+---
+
+<p class={`open-status ${variant}`} data-hours={JSON.stringify(hours)} data-i18n={JSON.stringify(i18n)} hidden>
+  <span class="dot" aria-hidden="true"></span>
+  <span class="label"></span>
+</p>
+
+<script>
+  type Day = { day: number; slots: { from: string; to: string }[] };
+  type I18n = Record<'openUntil' | 'opensToday' | 'opensTomorrow' | 'opensOn' | 'closed', string> & { days: string[] };
+
+  const toMin = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+  const fill = (s: string, t = '', d = '') => s.replace('{t}', t).replace('{d}', d);
+
+  function berlinNow() {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Berlin',
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
+    const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(get('weekday')) + 1;
+    return { day, min: Number(get('hour')) * 60 + Number(get('minute')) };
+  }
+
+  function status(hours: Day[], s: I18n) {
+    const { day, min } = berlinNow();
+    const today = hours.find((d) => d.day === day);
+    const current = today?.slots.find((x) => min >= toMin(x.from) && min < toMin(x.to));
+    if (current) return { open: true, text: fill(s.openUntil, current.to) };
+
+    const laterToday = today?.slots.find((x) => toMin(x.from) > min);
+    if (laterToday) return { open: false, text: fill(s.opensToday, laterToday.from) };
+
+    for (let i = 1; i <= 7; i++) {
+      const d = ((day - 1 + i) % 7) + 1;
+      const next = hours.find((h) => h.day === d);
+      if (next?.slots.length) {
+        const from = next.slots[0].from;
+        return { open: false, text: i === 1 ? fill(s.opensTomorrow, from) : fill(s.opensOn, from, s.days[d]) };
+      }
+    }
+    return { open: false, text: s.closed };
+  }
+
+  function update() {
+    document.querySelectorAll<HTMLElement>('.open-status').forEach((el) => {
+      const s = status(JSON.parse(el.dataset.hours ?? '[]'), JSON.parse(el.dataset.i18n ?? '{}'));
+      el.classList.toggle('is-open', s.open);
+      el.querySelector('.label')!.textContent = s.text;
+      el.hidden = false;
+    });
+    const { day } = berlinNow();
+    document.querySelectorAll<HTMLElement>(`[data-day="${Math.min(day, 6)}"]`).forEach((r) => r.classList.add('is-today'));
+  }
+  update();
+  setInterval(update, 60_000);
+</script>
+
+<style>
+  .open-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0.35rem 0.8rem 0.35rem 0.65rem;
+    border-radius: 999px;
+  }
+  .open-status[hidden] {
+    display: none;
+  }
+  .dot {
+    flex: none;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: #d0a24a;
+  }
+  .is-open .dot {
+    background: #3fbf72;
+    box-shadow: 0 0 0 4px rgb(63 191 114 / 0.22);
+  }
+  .dark {
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+  }
+  .light {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+</style>

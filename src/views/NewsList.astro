@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { useT, fmtDate, type Lang } from '../i18n';
+import { getNews, newsUrl } from '../i18n/news';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const posts = await getNews(lang);
+
+const c = {
+  de: {
+    title: 'Aktuelles',
+    description: 'Neuigkeiten und wichtige Hinweise der Gemeinschaftspraxis Immensen.',
+    h1: 'Neuigkeiten aus der Praxis',
+    lead: 'Hier finden Sie wichtige Hinweise, Urlaubszeiten und Änderungen im Praxisbetrieb.',
+  },
+  en: {
+    title: 'News',
+    description: 'News and important updates from Gemeinschaftspraxis Immensen.',
+    h1: 'News from the practice',
+    lead: 'Important notices, holiday closures and changes to how the practice runs.',
+  },
+}[lang];
+---
+
+<Base title={c.title} description={c.description}>
+  <PageHead eyebrow={c.title} title={c.h1} lead={c.lead} />
+  <section class="narrow list">
+    {
+      posts.map((p) => (
+        <a href={newsUrl(lang, p.slug)} class={`card post ${p.data.important ? 'important' : ''}`}>
+          <time datetime={p.data.date.toISOString()}>{fmtDate(lang, p.data.date)}</time>
+          <h2>{p.data.title}</h2>
+          <p>{p.data.summary}</p>
+          <span class="more">{t.readMore}</span>
+        </a>
+      ))
+    }
+  </section>
+</Base>
+
+<style>
+  .list {
+    display: grid;
+    gap: 1rem;
+  }
+  .post {
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .post:hover {
+    border-color: var(--brand);
+    color: var(--ink);
+  }
+  .important {
+    border-left: 4px solid var(--accent);
+  }
+  time {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 1.45rem;
+    margin: 0.35rem 0 0.5rem;
+  }
+  p {
+    color: var(--ink-soft);
+  }
+  .more {
+    color: var(--brand);
+    font-weight: 600;
+  }
+</style>

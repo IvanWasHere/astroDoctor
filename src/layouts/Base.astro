@@ -1,0 +1,466 @@
+---
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import { site, navKeys, hours, directionsLink, phoneFor, faxFor } from '../data/site';
+import { getLang, useT, routes, alternates, languages, type Lang } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Übersteuert die Ziel-URLs des Sprachumschalters (z. B. bei Neuigkeiten). */
+  alt?: Record<Lang, string>;
+}
+const lang = getLang(Astro.url);
+const t = useT(lang);
+const { title, description = t.defaultDescription } = Astro.props;
+const alt = Astro.props.alt ?? alternates(Astro.url.pathname);
+
+const fullTitle = title ? `${title} | ${site.name}` : t.homeTitle;
+const path = Astro.url.pathname;
+const canonical = new URL(path, site.url).href;
+const home = routes.home[lang];
+const isActive = (href: string) => path.startsWith(href) && href !== home;
+const phone = phoneFor(lang);
+
+const dayCodes = ['', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Physician',
+  name: site.name,
+  description: t.tagline,
+  url: new URL(home, site.url).href,
+  telephone: site.phoneIntl,
+  faxNumber: site.faxIntl,
+  medicalSpecialty: 'PrimaryCare',
+  availableLanguage: ['de', 'en'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.street,
+    postalCode: site.zip,
+    addressLocality: site.city,
+    addressCountry: 'DE',
+  },
+  openingHours: hours.flatMap((d) => d.slots.map((s) => `${dayCodes[d.day]} ${s.from}-${s.to}`)),
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {(Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={new URL(alt[l], site.url).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(alt.de, site.url).href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#11555b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={languages[lang].og} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.skip}</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a href={home} class="brand" aria-label={`${site.name} – ${t.home}`}>
+          <Logo size={40} />
+          <span class="brand-text">
+            <strong>Gemeinschaftspraxis</strong>
+            <span>Immensen</span>
+          </span>
+        </a>
+
+        <nav class="main-nav" aria-label={t.mainNav}>
+          <ul id="nav-list">
+            {
+              navKeys.map((key) => (
+                <li>
+                  <a href={routes[key][lang]} aria-current={isActive(routes[key][lang]) ? 'page' : undefined}>
+                    {t.nav[key as keyof typeof t.nav]}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <LangSwitch lang={lang} alt={alt} />
+
+        <a href={site.phoneHref} class="btn btn-primary header-call">
+          <Icon name="phone" size={18} />
+          <span>{phone}</span>
+        </a>
+
+        <button
+          class="menu-toggle"
+          aria-controls="nav-list"
+          aria-expanded="false"
+          aria-label={t.menuOpen}
+          data-open={t.menuOpen}
+          data-close={t.menuClose}
+        >
+          <Icon name="menu" class="i-open" />
+          <Icon name="close" class="i-close" />
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div>
+          <a href={home} class="brand brand-footer">
+            <Logo size={36} />
+            <span class="brand-text">
+              <strong>Gemeinschaftspraxis</strong>
+              <span>Immensen</span>
+            </span>
+          </a>
+          <p class="footer-small">{site.doctors}<br />{t.tagline}</p>
+        </div>
+
+        <div>
+          <h2 class="footer-h">{t.contact}</h2>
+          <address>
+            {site.street}<br />{site.zip} {site.city}
+          </address>
+          <p>
+            {t.phoneShort} <a href={site.phoneHref}>{phone}</a><br />
+            {t.fax} {faxFor(lang)}
+            {
+              site.email && (
+                <>
+                  <br />
+                  <a href={`mailto:${site.email}`}>{site.email}</a>
+                </>
+              )
+            }
+          </p>
+          <a href={directionsLink} rel="noopener" target="_blank">{t.route} →</a>
+        </div>
+
+        <div>
+          <h2 class="footer-h">{t.hoursTitle}</h2>
+          <OpenStatus />
+          <ul class="footer-hours">
+            {
+              hours.map((d) => (
+                <li>
+                  <span>{t.days[d.day].slice(0, 2)}</span>
+                  <span>{d.slots.map((s) => `${s.from}–${s.to}`).join(', ')}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="footer-small">{t.byAppointment}</p>
+        </div>
+
+        <div>
+          <h2 class="footer-h">{t.outOfHours}</h2>
+          <p class="footer-small">
+            {t.oncall}:<br /><a href="tel:116117" class="big-num">116 117</a>
+          </p>
+          <p class="footer-small">
+            {t.emergency}:<br /><a href="tel:112" class="big-num">112</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="wrap footer-bottom">
+        <span>© {new Date().getFullYear()} {site.name}</span>
+        <nav aria-label={t.legal}>
+          <a href={routes.digital[lang]}>{t.digital}</a>
+          <a href={routes.imprint[lang]}>{t.imprint}</a>
+          <a href={routes.privacy[lang]}>{t.privacy}</a>
+        </nav>
+      </div>
+    </footer>
+
+    <a href={site.phoneHref} class="mobile-call" aria-label={`${t.callAria}: ${phone}`}>
+      <Icon name="phone" size={22} />
+      <span>{t.call}</span>
+    </a>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const header = document.querySelector('.site-header');
+      btn?.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', (open ? btn.dataset.close : btn.dataset.open) ?? '');
+        header?.classList.toggle('nav-open', open);
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    background: var(--brand);
+    color: var(--brand-contrast);
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+  }
+  .skip:focus {
+    top: 1rem;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(250 247 242 / 0.88);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 4.5rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ink);
+    margin-right: auto;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-text strong {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .brand-text span {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .main-nav ul {
+    display: flex;
+    gap: 0.15rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .main-nav a {
+    display: block;
+    padding: 0.5rem 0.7rem;
+    border-radius: 999px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.97rem;
+    white-space: nowrap;
+  }
+  .main-nav a:hover {
+    background: var(--surface-2);
+  }
+  .main-nav a[aria-current='page'] {
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+  }
+  .header-call {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    width: 2.9rem;
+    height: 2.9rem;
+    place-items: center;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .menu-toggle :global(.i-close) {
+    display: none;
+  }
+  .nav-open .menu-toggle :global(.i-close) {
+    display: block;
+  }
+  .nav-open .menu-toggle :global(.i-open) {
+    display: none;
+  }
+
+  @media (max-width: 1180px) {
+    .header-call {
+      display: none;
+    }
+  }
+  @media (max-width: 920px) {
+    .menu-toggle {
+      display: grid;
+    }
+    .main-nav {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+    .nav-open .main-nav {
+      display: block;
+    }
+    .main-nav ul {
+      flex-direction: column;
+      padding: 0.75rem var(--gutter) 1.25rem;
+    }
+    .main-nav a {
+      padding: 0.85rem 1rem;
+      font-size: 1.1rem;
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  .site-footer {
+    background: var(--brand-strong);
+    color: #d5e3e2;
+    padding-top: clamp(3rem, 7vw, 4.5rem);
+    margin-top: clamp(3rem, 8vw, 6rem);
+    font-size: 0.97rem;
+  }
+  .site-footer a {
+    color: #fff;
+  }
+  .footer-grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  .brand-footer {
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .brand-footer .brand-text strong {
+    color: #a9c6c4;
+  }
+  .site-footer :global(.logo-mark rect) {
+    fill: #fdfbf7;
+  }
+  .site-footer :global(.logo-mark g) {
+    fill: var(--brand-strong);
+  }
+  .footer-h {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #a9c6c4;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  address {
+    font-style: normal;
+    margin-bottom: 0.6rem;
+  }
+  .footer-small {
+    font-size: 0.92rem;
+    color: #b9cfcd;
+  }
+  .footer-hours {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0;
+  }
+  .footer-hours li {
+    display: flex;
+    gap: 1rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .footer-hours li span:first-child {
+    width: 1.75rem;
+    color: #a9c6c4;
+  }
+  .big-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    margin-top: 3rem;
+    padding-block: 1.5rem 2rem;
+    font-size: 0.88rem;
+    color: #a9c6c4;
+  }
+  .footer-bottom nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+  .footer-bottom a {
+    color: #d5e3e2;
+  }
+
+  .mobile-call {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .mobile-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: fixed;
+      right: 1rem;
+      bottom: calc(1rem + env(safe-area-inset-bottom));
+      z-index: 40;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 10px 25px -8px rgb(0 0 0 / 0.35);
+    }
+    .mobile-call:hover {
+      color: #fff;
+    }
+    .site-footer {
+      padding-bottom: 4.5rem;
+    }
+  }
+  @media (max-width: 380px) {
+    .brand-text strong {
+      font-size: 0.62rem;
+    }
+    .brand-text span {
+      font-size: 1.15rem;
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { site } from '../../data/site';
+---
+
+<Base title="Imprint">
+  <PageHead title="Imprint" lead="English translation for convenience. The German version (Impressum) is legally binding." />
+  <article class="narrow prose">
+    <div class="notice">
+      <p><strong>Draft:</strong> To be legally reviewed before publication; fill in the items marked [ ].</p>
+    </div>
+
+    <h2>Information pursuant to § 5 DDG (German Digital Services Act)</h2>
+    <p>
+      {site.name}<br />
+      Dr. med. Ilsemarie Horst and Renke Harms<br />
+      {site.street}<br />
+      {site.zip} {site.city}<br />
+      Germany
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Phone: {site.phoneIntl}<br />
+      Fax: {site.faxIntl}<br />
+      Email: {site.email || '[email address]'}
+    </p>
+
+    <h2>Professional information</h2>
+    <p>
+      Professional title: Ärztin / Arzt (physician), awarded in the Federal Republic of Germany<br />
+      Competent medical association: {site.chamber} (Lower Saxony Medical Association), Karl-Wiechert-Allee 18–22, 30625 Hannover<br />
+      Competent association of statutory health insurance physicians: Kassenärztliche Vereinigung Niedersachsen<br />
+      Professional regulations: Professional Code of the Ärztekammer Niedersachsen, Lower Saxony Health Professions Act (HKG)
+    </p>
+    <p>Legal form: [e.g. joint practice / Berufsausübungsgemeinschaft (GbR)]</p>
+
+    <h2>Responsible for content</h2>
+    <p>[Name], address as above</p>
+  </article>
+</Base>

@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import HoursTable from '../components/HoursTable.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import Icon from '../components/Icon.astro';
+import { site, phoneFor } from '../data/site';
+import { routes, useT, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const phone = phoneFor(lang);
+
+const c = {
+  de: {
+    title: 'Öffnungszeiten',
+    description: `Öffnungs- und Sprechzeiten der Gemeinschaftspraxis Immensen. Termine unter ${site.phone}.`,
+    eyebrow: 'Sprechzeiten',
+    lead: 'Gültig ab 01.01.2025. Unsere Sprechstunde ist terminbasiert.',
+    apptH: 'Termin vereinbaren',
+    apptText: 'Um Wartezeiten zu vermeiden, vereinbaren Sie bitte vor dem Besuch einen Termin.',
+    or: 'oder über unser',
+    form: 'Kontaktformular',
+    emergencyH: 'Außerhalb der Öffnungszeiten',
+    ambulance: 'Rettungsdienst bei lebensbedrohlichen Notfällen',
+    docsH: 'Sprechstunden der Ärztinnen und Ärzte',
+    docsStart: 'Die ärztliche Sprechstunde beginnt an den angegebenen Tagen um',
+    docsStartTime: '8:00 Uhr',
+    docsText:
+      'Die angegebenen Zeiten sind die Öffnungszeiten der Praxis – sie entsprechen nicht genau den Zeiten der ärztlichen Sprechstunden. Denn auch Blutentnahmen, technische Untersuchungen, Hausbesuche, Telefonate und die viele Bürokratie brauchen ihre Zeit.',
+  },
+  en: {
+    title: 'Opening hours',
+    description: `Opening and consultation hours at Gemeinschaftspraxis Immensen. Appointments: ${site.phoneIntl}.`,
+    eyebrow: 'Opening hours',
+    lead: 'Valid from 1 January 2025. We see patients by appointment.',
+    apptH: 'Book an appointment',
+    apptText: 'To avoid waiting, please book an appointment before you visit.',
+    or: 'or use our',
+    form: 'contact form',
+    emergencyH: 'Outside opening hours',
+    ambulance: 'Ambulance for life-threatening emergencies',
+    docsH: 'Doctors’ consultation hours',
+    docsStart: 'On the days shown, doctors’ consultations start at',
+    docsStartTime: '8:00',
+    docsText:
+      'The times shown are the practice’s opening hours, which are not exactly the same as the doctors’ consultation hours – blood tests, examinations, home visits, phone calls and a lot of paperwork take time too.',
+  },
+}[lang];
+---
+
+<Base title={c.title} description={c.description}>
+  <PageHead eyebrow={c.eyebrow} title={t.hoursTitle} lead={c.lead}>
+    <OpenStatus variant="light" />
+  </PageHead>
+
+  <section class="wrap layout">
+    <HoursTable />
+
+    <aside class="side">
+      <div class="card">
+        <h2>{c.apptH}</h2>
+        <p class="muted">{c.apptText}</p>
+        <a href={site.phoneHref} class="btn btn-primary"><Icon name="phone" size={18} /> {phone}</a>
+        <p class="or">{c.or} <a href={routes.contact[lang]}>{c.form}</a></p>
+      </div>
+      <div class="card emergency">
+        <h2>{c.emergencyH}</h2>
+        <p><a href="tel:116117" class="num">116 117</a><span>{t.oncall}</span></p>
+        <p><a href="tel:112" class="num">112</a><span>{c.ambulance}</span></p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="narrow section prose">
+    <h2>{c.docsH}</h2>
+    <p>{c.docsStart} <strong>{c.docsStartTime}</strong>.</p>
+    <p>{c.docsText}</p>
+  </section>
+</Base>
+
+<style>
+  .page-head :global(.open-status) {
+    margin-top: 0.5rem;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .side {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .side h2 {
+    font-size: 1.25rem;
+  }
+  .or {
+    margin: 0.9rem 0 0;
+    font-size: 0.95rem;
+  }
+  .emergency p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.8rem;
+  }
+  .emergency span {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+  .num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--accent);
+  }
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

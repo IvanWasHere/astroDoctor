@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
+import { routes, useT, fmtDate, type Lang } from '../i18n';
+import { getNews, newsUrl } from '../i18n/news';
+
+interface Props {
+  lang: Lang;
+  post: Awaited<ReturnType<typeof getNews>>[number];
+}
+const { lang, post } = Astro.props;
+const t = useT(lang);
+const { Content } = await render(post);
+
+// Sprachumschalter: gleiche Meldung in der anderen Sprache, sonst deren Übersicht
+const other: Lang = lang === 'de' ? 'en' : 'de';
+const hasTranslation = (await getNews(other)).some((p) => p.slug === post.slug);
+const alt = {
+  [lang]: newsUrl(lang, post.slug),
+  [other]: hasTranslation ? newsUrl(other, post.slug) : routes.news[other],
+} as Record<Lang, string>;
+---
+
+<Base title={post.data.title} description={post.data.summary} alt={alt}>
+  <article class="narrow section prose">
+    <a href={routes.news[lang]} class="back">{t.allNews}</a>
+    <time datetime={post.data.date.toISOString()}>{fmtDate(lang, post.data.date)}</time>
+    <h1>{post.data.title}</h1>
+    <p class="lead">{post.data.summary}</p>
+    <Content />
+  </article>
+</Base>
+
+<style>
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+  time {
+    display: block;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+</style>

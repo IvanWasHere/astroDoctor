@@ -1,0 +1,132 @@
+---
+import { hours } from '../data/site';
+import { getLang, useT } from '../i18n';
+interface Props {
+  showDoctors?: boolean;
+}
+const { showDoctors = true } = Astro.props;
+const t = useT(getLang(Astro.url));
+---
+
+<div class="hours" role="table" aria-label={t.hoursTitle}>
+  <div class="row head" role="row">
+    <span role="columnheader">{t.day}</span>
+    <span role="columnheader">{t.morning}</span>
+    <span role="columnheader">{t.afternoon}</span>
+  </div>
+  {
+    hours.map((d) => {
+      const am = d.slots.find((s) => s.from < '12:00');
+      const pm = d.slots.find((s) => s.from >= '12:00');
+      return (
+        <div class="row" role="row" data-day={d.day}>
+          <span role="cell" class="day">
+            {t.days[d.day]}
+            <em class="today-badge">{t.today}</em>
+          </span>
+          {[am, pm].map((s) => (
+            <span role="cell" class={s ? 'slot' : 'slot closed'}>
+              {s ? (
+                <>
+                  <span class="time">
+                    {s.from} – {s.to}
+                  </span>
+                  {showDoctors && <span class="who">{s.who ?? t.consultation}</span>}
+                </>
+              ) : (
+                <span class="time">{t.closed}</span>
+              )}
+            </span>
+          ))}
+        </div>
+      );
+    })
+  }
+  <div class="row weekend" role="row" data-day="6">
+    <span role="cell" class="day">{t.weekend} <em class="today-badge">{t.today}</em></span>
+    <span role="cell" class="slot closed"><span class="time">{t.closed}</span></span>
+    <span role="cell" class="slot closed"></span>
+  </div>
+</div>
+
+<style>
+  .hours {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-variant-numeric: tabular-nums;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 0.95rem 1.25rem;
+    border-top: 1px solid var(--line);
+    align-items: center;
+  }
+  .head {
+    border-top: 0;
+    background: var(--surface-2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-block: 0.7rem;
+  }
+  .day {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .slot {
+    display: flex;
+    flex-direction: column;
+  }
+  .who {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .closed {
+    color: #9a9187;
+  }
+  .today-badge {
+    display: none;
+    font-style: normal;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--brand);
+    color: var(--brand-contrast);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+  }
+  .is-today {
+    background: var(--brand-soft);
+  }
+  .is-today .today-badge {
+    display: inline-block;
+  }
+  .weekend {
+    color: var(--ink-soft);
+  }
+  @media (max-width: 520px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.25rem 1rem;
+    }
+    .head {
+      display: none;
+    }
+    .day {
+      grid-column: 1 / -1;
+    }
+    .weekend .slot:last-child {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+// Bildmarke: ein Kreuz aus vier Blättern – Medizin trifft Dorf/Natur.
+interface Props {
+  size?: number;
+}
+const { size = 40 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" class="logo-mark">
+  <rect width="48" height="48" rx="14" fill="var(--brand)"></rect>
+  <g fill="var(--brand-contrast)">
+    <path d="M24 9c3.5 3 4.6 6.8 3.4 11.4L24 22l-3.4-1.6C19.4 15.8 20.5 12 24 9z"></path>
+    <path d="M39 24c-3 3.5-6.8 4.6-11.4 3.4L26 24l1.6-3.4C32.2 19.4 36 20.5 39 24z"></path>
+    <path d="M24 39c-3.5-3-4.6-6.8-3.4-11.4L24 26l3.4 1.6c1.2 4.6.1 8.4-3.4 11.4z" opacity=".85"></path>
+    <path d="M9 24c3-3.5 6.8-4.6 11.4-3.4L22 24l-1.6 3.4C15.8 28.6 12 27.5 9 24z" opacity=".85"></path>
+  </g>
+</svg>

@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+
+const values = [
+  {
+    icon: 'heart',
+    title: 'A respectful atmosphere',
+    text: 'A respectful, open atmosphere makes everything easier. Especially in difficult times, it helps to remember: no information gets lost when it is shared kindly.',
+  },
+  {
+    icon: 'access',
+    title: 'Step-free & easy to reach',
+    text: 'The practice is on the ground floor with step-free access. There is parking close by.',
+  },
+  {
+    icon: 'home',
+    title: 'Assisted living',
+    text: 'We also provide GP care for the residents of the nearby assisted-living facility.',
+  },
+];
+---
+
+<Base title="The practice" description="How Gemeinschaftspraxis Immensen is organised, GP-centred care and training of doctors and medical assistants.">
+  <PageHead eyebrow="The practice" title="Working together for your health" lead="Please book an appointment before visiting us." />
+
+  <section class="wrap values">
+    {
+      values.map((v) => (
+        <div class="card">
+          <Icon name={v.icon} size={28} />
+          <h2>{v.title}</h2>
+          <p>{v.text}</p>
+        </div>
+      ))
+    }
+  </section>
+
+  <article class="narrow prose section">
+    <h2>How the practice is organised</h2>
+    <p>
+      As family doctors we care for children, adults and seniors. Strictly speaking, you are a patient of “Gemeinschaftspraxis Immensen” rather
+      than of one particular doctor – so “my doctor” isn’t quite accurate.
+    </p>
+    <p>
+      Of course, not everyone clicks with everyone. We therefore try to respect personal preferences wherever we can. That won’t always be
+      possible – but you will always be treated by us.
+    </p>
+
+    <h2>GP-centred care (HZV)</h2>
+    <p>
+      We offer GP-centred care contracts with the major statutory health insurers, and we take part in regular further training – for this
+      and much more.
+    </p>
+    <p>
+      Medicine is becoming ever more complex and specialised, which makes it harder to keep track of everything. Research shows that patients
+      get better results when they see their family doctor first and are referred on from there. Family doctors therefore play an important
+      role in guiding patients through the system.
+    </p>
+    <p>
+      These contracts also help keep family medicine available close to home. A warm thank-you to everyone who takes part in GP-centred care at
+      our practice!
+    </p>
+
+    <h2>Training doctors and medical assistants</h2>
+    <p>We are proud to train both medical assistants and future family doctors at our practice.</p>
+    <p>
+      Our experienced staff are highly skilled and well trained, and some have been with us for decades. That is rare these days, and we are
+      very grateful for it.
+    </p>
+
+    <p class="signature">
+      Warm regards,<br />
+      <strong>Dr. Ilsemarie Horst and Renke Harms</strong>
+    </p>
+
+    <p><a href="/en/digitalisation/">How we are going digital →</a></p>
+  </article>
+</Base>
+
+<style>
+  .values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+  .values :global(svg) {
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+  }
+  .values h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .values p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .signature {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-top: 2.5rem;
+  }
+</style>

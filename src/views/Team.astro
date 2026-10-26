@@ -1,0 +1,162 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { team } from '../data/site';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Team',
+    description:
+      'Das Team der Gemeinschaftspraxis Immensen: Dr. med. Ilsemarie Horst, Renke Harms, Dr. med. Yeliz Hörl-Aydemir und unsere MFA.',
+    h1: 'Menschen, die für Sie da sind',
+    lead: 'Ärztinnen, Ärzte und Medizinische Fachangestellte – mit viel Erfahrung und Herz.',
+    cv: 'Beruflicher Werdegang',
+    mfaEyebrow: 'Medizinische Fachangestellte',
+    mfaH: 'Ohne ein gutes MFA-Team geht es nicht',
+    mfaText:
+      'Wundmanagerin, Praxismanagerin, Auszubildende – die Aufgaben der Medizinischen Fachangestellten sind unheimlich vielfältig, und in Zukunft kommen noch viele weitere hinzu. Ein reibungsloser Ablauf ist ohne ein gutes Team nicht umsetzbar. Umso mehr freuen wir uns, dass unsere Mitarbeiterinnen teilweise seit Jahrzehnten zu unserem Team gehören.',
+    noteStrong: 'Ein gutes Miteinander:',
+    note: 'Bitte begegnen Sie allen Mitarbeiterinnen und Mitarbeitern höflich und wertschätzend. Wir wollen, dass sich alle Menschen in unseren Räumen gut aufgehoben fühlen.',
+  },
+  en: {
+    title: 'Team',
+    description:
+      'The team at Gemeinschaftspraxis Immensen: Dr. med. Ilsemarie Horst, Renke Harms, Dr. med. Yeliz Hörl-Aydemir and our medical assistants.',
+    h1: 'The people who look after you',
+    lead: 'Doctors and medical assistants – with plenty of experience and heart.',
+    cv: 'Career',
+    mfaEyebrow: 'Medical assistants',
+    mfaH: 'A practice is only as good as its team',
+    mfaText:
+      'Wound care specialist, practice manager, trainee – our medical assistants (MFA) take on a huge range of tasks, and more are added every year. A practice simply cannot run smoothly without a good team. We are delighted that some of our staff have been with us for decades.',
+    noteStrong: 'Treating each other well:',
+    note: 'Please be polite and respectful to all of our staff. We want everyone to feel comfortable and well looked after in our practice.',
+  },
+}[lang];
+---
+
+<Base title={c.title} description={c.description}>
+  <PageHead eyebrow="Team" title={c.h1} lead={c.lead} />
+
+  <section class="wrap people">
+    {
+      team.map((m) => (
+        <article class="card person">
+          <span class="avatar" aria-hidden="true">
+            {m.initials}
+          </span>
+          <div>
+            <h2>{m.name}</h2>
+            <p class="role">{m.role[lang]}</p>
+            {m.bio.map((p) => (
+              <p>{p[lang]}</p>
+            ))}
+            {m.cv.length > 0 && (
+              <>
+                <h3>{c.cv}</h3>
+                <ol class="cv">
+                  {m.cv.map((x) => (
+                    <li>
+                      <span>{x.year}</span>
+                      {x.text[lang]}
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="narrow section">
+    <span class="eyebrow">{c.mfaEyebrow}</span>
+    <h2>{c.mfaH}</h2>
+    <p>{c.mfaText}</p>
+    <div class="notice">
+      <p><strong>{c.noteStrong}</strong> {c.note}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .people {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .person {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+  }
+  .person h2 {
+    margin-bottom: 0.3rem;
+  }
+  .role {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .person p:not(.role) {
+    color: var(--ink-soft);
+    max-width: 44rem;
+  }
+  .person h3 {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 1.75rem;
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: clamp(4.5rem, 12vw, 7rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    font-weight: 600;
+  }
+  .cv {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 2px solid var(--brand-soft);
+  }
+  .cv li {
+    position: relative;
+    padding: 0.35rem 0 0.35rem 1.25rem;
+  }
+  .cv li::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0.85rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+  .cv span {
+    display: inline-block;
+    min-width: 7.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 600px) {
+    .person {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+// Sprach-Dropdown im Header. Funktioniert auch ohne JavaScript (<details>).
+import Icon from './Icon.astro';
+import { languages, useT, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  alt: Record<Lang, string>;
+}
+const { lang, alt } = Astro.props;
+const t = useT(lang);
+---
+
+<details class="lang-switch">
+  <summary aria-label={`${t.language}: ${languages[lang].label}`}>
+    <Icon name="globe" size={18} />
+    <span>{languages[lang].short}</span>
+    <Icon name="chevron" size={16} class="chev" />
+  </summary>
+  <ul role="list">
+    {
+      (Object.keys(languages) as Lang[]).map((l) => (
+        <li>
+          <a href={alt[l]} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined} data-lang={l}>
+            <span class="code">{languages[l].short}</span>
+            {languages[l].label}
+            {l === lang && <Icon name="check" size={16} class="tick" />}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<script>
+  const el = document.querySelector<HTMLDetailsElement>('.lang-switch');
+  if (el) {
+    // Schließen bei Klick außerhalb oder Escape
+    document.addEventListener('click', (e) => {
+      if (el.open && !el.contains(e.target as Node)) el.open = false;
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && el.open) {
+        el.open = false;
+        el.querySelector('summary')?.focus();
+      }
+    });
+    // Wahl merken (nur Komfort, keine automatische Weiterleitung)
+    el.querySelectorAll<HTMLAnchorElement>('a[data-lang]').forEach((a) =>
+      a.addEventListener('click', () => {
+        try {
+          localStorage.setItem('lang', a.dataset.lang!);
+        } catch {}
+      }),
+    );
+  }
+</script>
+
+<style>
+  .lang-switch {
+    position: relative;
+  }
+  summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 2.9rem;
+    padding: 0 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    user-select: none;
+    color: var(--ink);
+    background: var(--surface);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover {
+    border-color: var(--brand);
+  }
+  summary :global(.chev) {
+    transition: transform 0.15s;
+    color: var(--ink-soft);
+  }
+  .lang-switch[open] summary :global(.chev) {
+    transform: rotate(180deg);
+  }
+  ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    min-width: 11rem;
+    margin: 0;
+    padding: 0.35rem;
+    list-style: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    z-index: 60;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  a:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  a[aria-current] {
+    color: var(--brand-strong);
+  }
+  .code {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    width: 1.6rem;
+  }
+  a :global(.tick) {
+    margin-left: auto;
+    color: var(--brand);
+  }
+</style>

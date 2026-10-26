@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Impressum">
+  <PageHead title="Impressum" />
+  <article class="narrow prose">
+    <div class="notice">
+      <p><strong>Entwurf:</strong> Bitte vor Veröffentlichung rechtlich prüfen und die mit [ ] markierten Angaben ergänzen.</p>
+    </div>
+
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <p>
+      {site.name}<br />
+      Dr. med. Ilsemarie Horst und Renke Harms<br />
+      {site.street}<br />
+      {site.zip} {site.city}
+    </p>
+
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: {site.phone}<br />
+      Telefax: {site.fax}<br />
+      E-Mail: {site.email || '[E-Mail-Adresse]'}
+    </p>
+
+    <h2>Berufsrechtliche Angaben</h2>
+    <p>
+      Gesetzliche Berufsbezeichnung: Ärztin / Arzt (verliehen in der Bundesrepublik Deutschland)<br />
+      Zuständige Ärztekammer: {site.chamber}, Karl-Wiechert-Allee 18–22, 30625 Hannover<br />
+      Zuständige Kassenärztliche Vereinigung: Kassenärztliche Vereinigung Niedersachsen<br />
+      Berufsrechtliche Regelungen: Berufsordnung der Ärztekammer Niedersachsen, Heilberufsgesetz Niedersachsen
+    </p>
+    <p>Rechtsform: [z. B. Gemeinschaftspraxis / Berufsausübungsgemeinschaft (GbR)]</p>
+
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>[Name], Anschrift wie oben</p>
+  </article>
+</Base>

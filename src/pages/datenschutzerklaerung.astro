@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Datenschutzerklärung">
+  <PageHead title="Datenschutzerklärung" />
+  <article class="narrow prose">
+    <div class="notice">
+      <p>
+        <strong>Entwurf:</strong> Diese Datenschutzerklärung ist ein Platzhalter und muss vor Veröffentlichung durch eine vollständige, geprüfte
+        Fassung ersetzt werden (insb. Hosting-Anbieter und ggf. Formular-Dienstleister).
+      </p>
+    </div>
+
+    <h2>Verantwortliche Stelle</h2>
+    <p>
+      {site.name}, Dr. med. Ilsemarie Horst und Renke Harms<br />
+      {site.street}, {site.zip} {site.city}<br />
+      Telefon: {site.phone}
+    </p>
+
+    <h2>Keine Cookies, kein Tracking</h2>
+    <p>
+      Diese Website verwendet keine Cookies, keine Analyse- oder Tracking-Werkzeuge und lädt keine Inhalte von Drittanbietern (Schriften werden
+      lokal ausgeliefert, Karten nur nach Klick auf einen externen Link geöffnet). Ihre Sprachwahl wird nur lokal in Ihrem Browser gespeichert.
+    </p>
+
+    <h2>Server-Logfiles</h2>
+    <p>[Angaben zum Hosting-Anbieter und zu den automatisch erfassten Zugriffsdaten ergänzen.]</p>
+
+    <h2>Kontakt- und Rezeptformular</h2>
+    <p>
+      Wenn Sie uns über ein Formular kontaktieren, verarbeiten wir Ihre Angaben ausschließlich zur Bearbeitung Ihres Anliegens (Art. 6 Abs. 1 lit. b
+      und Art. 9 Abs. 2 lit. h DSGVO). [Formular-Dienstleister, Speicherdauer und Übertragungsweg ergänzen.]
+    </p>
+
+    <h2>Ihre Rechte</h2>
+    <p>
+      Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht
+      auf Beschwerde bei der Landesbeauftragten für den Datenschutz Niedersachsen.
+    </p>
+  </article>
+</Base>

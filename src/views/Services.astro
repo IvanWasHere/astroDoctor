@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/site';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Leistungen',
+    description:
+      'Leistungen der Gemeinschaftspraxis Immensen: Diagnostik, Impfungen, Vorsorge, DMP, Wundversorgung, Hausbesuche und mehr.',
+    eyebrow: 'Leistungen',
+    h1: 'Allgemeinmedizin mit hausärztlicher Betreuung',
+    lead: 'Schildern Sie uns Ihr Anliegen – wir bemühen uns, gemeinsam mit Ihnen eine individuell passende Lösung zu finden.',
+    igelStrong: 'Hinweis zu IGeL:',
+    igel: 'Individuelle Gesundheitsleistungen sind Leistungen, deren Wirksamkeit nicht sicher wissenschaftlich belegt ist. Wissenschaftlich empfohlene Leistungen werden grundsätzlich von den Krankenkassen bezahlt.',
+  },
+  en: {
+    title: 'Services',
+    description:
+      'Services at Gemeinschaftspraxis Immensen: diagnostics, vaccinations, screening, chronic disease programmes, wound care, home visits and more.',
+    eyebrow: 'Services',
+    h1: 'General practice and family medicine',
+    lead: 'Tell us what you need – we will work with you to find a solution that suits you.',
+    igelStrong: 'About self-pay services (IGeL):',
+    igel: 'These are services whose benefit has not been firmly established by research. Services that are scientifically recommended are generally paid for by health insurance.',
+  },
+}[lang];
+---
+
+<Base title={c.title} description={c.description}>
+  <PageHead eyebrow={c.eyebrow} title={c.h1} lead={c.lead} />
+
+  <section class="wrap svc-list">
+    {
+      services.map((s) => (
+        <article class="card svc" id={s.id}>
+          <span class="svc-icon">
+            <Icon name={s.icon} size={26} />
+          </span>
+          <div>
+            <h2>{s.title[lang]}</h2>
+            {s.text && <p>{s.text[lang]}</p>}
+            {s.items && (
+              <ul>
+                {s.items.map((i) => (
+                  <li>
+                    <Icon name="check" size={18} />
+                    {i[lang]}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="narrow section">
+    <div class="notice">
+      <Icon name="alert" />
+      <p><strong>{c.igelStrong}</strong> {c.igel}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .svc-list {
+    columns: 2 22rem;
+    column-gap: 1.25rem;
+  }
+  .svc {
+    break-inside: avoid;
+    display: flex;
+    gap: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  .svc-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .svc h2 {
+    font-size: 1.3rem;
+    margin: 0.4rem 0 0.6rem;
+  }
+  .svc p {
+    color: var(--ink-soft);
+  }
+  .svc p:last-child {
+    margin: 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+  li {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  li :global(svg) {
+    color: var(--brand);
+    flex: none;
+    margin-top: 0.25rem;
+  }
+</style>

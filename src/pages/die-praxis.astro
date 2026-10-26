@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+
+const values = [
+  {
+    icon: 'heart',
+    title: 'Wertschätzende Atmosphäre',
+    text: 'Eine wertschätzende und offene Atmosphäre vereinfacht das Miteinander sehr. Gerade in schwierigen Zeiten hilft die Erinnerung: Keine Information geht verloren, wenn man sie freundlich mitteilt.',
+  },
+  {
+    icon: 'access',
+    title: 'Barrierefrei & gut erreichbar',
+    text: 'Die Praxis ist barrierefrei im Erdgeschoss zugänglich. Parkplätze finden Sie in unmittelbarer Umgebung.',
+  },
+  {
+    icon: 'home',
+    title: 'Betreutes Wohnen',
+    text: 'Auch die hausärztliche Versorgung des nahe gelegenen betreuten Wohnens übernehmen wir.',
+  },
+];
+---
+
+<Base title="Die Praxis" description="Organisation, hausarztzentrierte Versorgung und Ausbildung in der Gemeinschaftspraxis Immensen.">
+  <PageHead eyebrow="Die Praxis" title="Gemeinsam für Ihre Gesundheit" lead="Für einen Besuch in der Sprechstunde vereinbaren Sie bitte einen Termin." />
+
+  <section class="wrap values">
+    {
+      values.map((v) => (
+        <div class="card">
+          <Icon name={v.icon} size={28} />
+          <h2>{v.title}</h2>
+          <p>{v.text}</p>
+        </div>
+      ))
+    }
+  </section>
+
+  <article class="narrow prose section">
+    <h2>Organisation der Praxis</h2>
+    <p>
+      Wir versorgen als Hausärztinnen und Hausärzte Kinder, Erwachsene und Senioren. Im Grunde sind Sie Patientin oder Patient der
+      „Gemeinschaftspraxis Immensen“ und haben nicht einen persönlichen Arzt – „mein Arzt“ oder „meine Ärztin“ trifft es daher nicht ganz.
+    </p>
+    <p>
+      Natürlich passt nicht jeder Mensch zu jedem Menschen. Wir versuchen deshalb, persönliche Präferenzen möglichst zu berücksichtigen. Das
+      wird nicht in jedem Fall umsetzbar sein – behandelt werden Sie von uns aber immer.
+    </p>
+
+    <h2>Hausarztzentrierte Versorgung</h2>
+    <p>
+      Wir bieten die hausarztzentrierte Versorgung (HZV) der großen gesetzlichen Krankenkassen an und bilden uns – nicht nur hierfür –
+      regelmäßig fort.
+    </p>
+    <p>
+      In einem immer komplexeren, hochspezialisierten Medizinsystem wird es schwieriger, den Überblick zu behalten. Es hat sich gezeigt, dass
+      Behandlungsergebnisse besser werden, wenn Patientinnen und Patienten zuerst in ihre Hausarztpraxis gehen und von dort weiter überwiesen
+      werden. Hausärztinnen und Hausärzte übernehmen damit eine wichtige, koordinierende Lotsenfunktion.
+    </p>
+    <p>
+      Hausarztverträge sind außerdem eine wichtige Säule für die wohnortnahe hausärztliche Versorgung. Allen, die in unserer Praxis an der HZV
+      teilnehmen, danken wir herzlich!
+    </p>
+
+    <h2>Ausbildung von Ärzten und Medizinischen Fachangestellten</h2>
+    <p>Mit großer Freude bilden wir sowohl Medizinische Fachangestellte als auch Hausärztinnen und Hausärzte aus.</p>
+    <p>
+      Unsere erfahrenen Mitarbeiterinnen arbeiten mit großer Kompetenz, guter Ausbildung und zum Teil bereits seit Jahrzehnten in unserer
+      Praxis. Das ist heutzutage etwas Besonderes und Wertvolles – und wir sind sehr glücklich darüber.
+    </p>
+
+    <p class="signature">
+      Herzlichst!<br />
+      <strong>Dr. Ilsemarie Horst und Renke Harms</strong>
+    </p>
+
+    <p><a href="/digitalisierung/">Wie wir die Praxis digitalisieren →</a></p>
+  </article>
+</Base>
+
+<style>
+  .values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+  .values :global(svg) {
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+  }
+  .values h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .values p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .signature {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-top: 2.5rem;
+  }
+</style>

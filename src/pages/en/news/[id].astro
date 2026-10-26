@@ -1,0 +1,12 @@
+---
+import View from '../../../views/NewsPost.astro';
+import { getNews } from '../../../i18n/news';
+
+export async function getStaticPaths() {
+  const posts = await getNews('en');
+  return posts.map((post) => ({ params: { id: post.slug }, props: { post } }));
+}
+const { post } = Astro.props;
+---
+
+<View lang="en" post={post} />

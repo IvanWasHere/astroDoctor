@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { site } from '../../data/site';
+---
+
+<Base title="Privacy policy">
+  <PageHead title="Privacy policy" lead="English translation for convenience. The German version (Datenschutzerklärung) is legally binding." />
+  <article class="narrow prose">
+    <div class="notice">
+      <p>
+        <strong>Draft:</strong> This privacy policy is a placeholder and must be replaced with a complete, reviewed version before publication
+        (in particular hosting provider and any form service provider).
+      </p>
+    </div>
+
+    <h2>Controller</h2>
+    <p>
+      {site.name}, Dr. med. Ilsemarie Horst and Renke Harms<br />
+      {site.street}, {site.zip} {site.city}, Germany<br />
+      Phone: {site.phoneIntl}
+    </p>
+
+    <h2>No cookies, no tracking</h2>
+    <p>
+      This website does not use cookies or any analytics or tracking tools and does not load content from third parties (fonts are served from
+      this site; maps only open when you click an external link). Your language choice is remembered only in your own browser.
+    </p>
+
+    <h2>Server log files</h2>
+    <p>[Add details of the hosting provider and the access data collected automatically.]</p>
+
+    <h2>Contact and prescription forms</h2>
+    <p>
+      If you contact us using a form, we process your details solely to handle your request (Art. 6(1)(b) and Art. 9(2)(h) GDPR). [Add form
+      service provider, retention period and transmission method.]
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      You have the right to access, rectification, erasure, restriction of processing, data portability and objection, and the right to lodge a
+      complaint with the data protection authority of Lower Saxony (Die Landesbeauftragte für den Datenschutz Niedersachsen).
+    </p>
+  </article>
+</Base>
