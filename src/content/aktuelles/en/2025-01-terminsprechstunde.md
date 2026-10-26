@@ -8,4 +8,4 @@ You need an appointment to visit the practice. If you come in without one – as
 
 Please arrive on time for your appointment. This helps us avoid crowded waiting rooms and stress for everyone.
 
-Book an appointment on **+49 5175 9205-0** or via our [contact form](/en/contact/).
+Book an appointment on **+49 5175 9205-0** or via our [contact form](/astroDoctor/en/contact/).

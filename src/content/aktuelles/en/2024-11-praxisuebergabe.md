@@ -9,4 +9,4 @@ From **2 January 2025** Gemeinschaftspraxis Immensen continues as usual. **Renke
 
 Since 1 January 2025, Dr. med. Ilsemarie Horst and Renke Harms and their team have been providing family medicine for Lehrte-Immensen and the surrounding area.
 
-Find out more about the team on our [team page](/en/team/).
+Find out more about the team on our [team page](/astroDoctor/en/team/).

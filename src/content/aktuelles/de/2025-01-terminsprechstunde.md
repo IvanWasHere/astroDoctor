@@ -8,4 +8,4 @@ Für einen Besuch in unserer Praxis benötigen Sie einen Termin. Sollten Sie –
 
 Bitte erscheinen Sie pünktlich zu Ihrem Termin. So vermeiden wir volle Wartezimmer und Stress auf allen Seiten.
 
-Termine erhalten Sie unter **05175 9205-0** oder über unser [Kontaktformular](/kontakt/).
+Termine erhalten Sie unter **05175 9205-0** oder über unser [Kontaktformular](/astroDoctor/kontakt/).

@@ -7,8 +7,18 @@ export const languages = {
 export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'de';
 
+// Basis-Pfad der Website (z. B. '/astroDoctor' auf GitHub Pages, '' auf eigener Domain)
+export const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+/** Interne Adresse mit Basis-Pfad versehen: url('/kontakt/') → '/astroDoctor/kontakt/' */
+export const url = (path: string) => `${BASE}${path}`;
+
+const withBase = <T extends Record<string, Record<string, string>>>(r: T) =>
+  Object.fromEntries(
+    Object.entries(r).map(([k, v]) => [k, Object.fromEntries(Object.entries(v).map(([l, p]) => [l, url(p)]))]),
+  ) as T;
+
 // Jede Seite in beiden Sprachen. Schlüssel werden für Links und den Sprachumschalter genutzt.
-export const routes = {
+export const routes = withBase({
   home: { de: '/', en: '/en/' },
   practice: { de: '/die-praxis/', en: '/en/practice/' },
   team: { de: '/team/', en: '/en/team/' },
@@ -19,11 +29,12 @@ export const routes = {
   digital: { de: '/digitalisierung/', en: '/en/digitalisation/' },
   imprint: { de: '/impressum/', en: '/en/imprint/' },
   privacy: { de: '/datenschutzerklaerung/', en: '/en/privacy/' },
-} as const;
+});
 export type RouteKey = keyof typeof routes;
 
-export function getLang(url: URL): Lang {
-  return url.pathname === '/en' || url.pathname.startsWith('/en/') ? 'en' : 'de';
+export function getLang(pageUrl: URL): Lang {
+  const p = pageUrl.pathname.slice(BASE.length);
+  return p === '/en' || p.startsWith('/en/') ? 'en' : 'de';
 }
 
 /** Gleiche Seite in jeder Sprache (für Umschalter und hreflang). */

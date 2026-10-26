@@ -1,7 +1,7 @@
 ---
 // Eine 404-Seite für beide Sprachen (der Server liefert immer dieselbe Datei aus)
 import Base from '../layouts/Base.astro';
-import { ui } from '../i18n';
+import { ui, routes } from '../i18n';
 const de = ui.de.notFound;
 const en = ui.en.notFound;
 ---
@@ -12,8 +12,8 @@ const en = ui.en.notFound;
     <h1>{de.title}</h1>
     <p class="lead" lang="en">{en.title}</p>
     <p style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
-      <a class="btn btn-primary" href="/">{de.home}</a>
-      <a class="btn btn-ghost" href="/en/" lang="en">{en.home}</a>
+      <a class="btn btn-primary" href={routes.home.de}>{de.home}</a>
+      <a class="btn btn-ghost" href={routes.home.en} lang="en">{en.home}</a>
     </p>
   </section>
 </Base>

@@ -9,4 +9,4 @@ Ab dem **02.01.2025** geht der Betrieb in der Gemeinschaftspraxis Immensen wie g
 
 Frau Dr. med. Ilsemarie Horst und Herr Renke Harms bieten seit dem 01.01.2025 gemeinsam mit ihrem Team die hausärztliche Versorgung in Lehrte-Immensen und Umgebung an.
 
-Mehr über unser Team erfahren Sie auf der [Team-Seite](/team/).
+Mehr über unser Team erfahren Sie auf der [Team-Seite](/astroDoctor/team/).

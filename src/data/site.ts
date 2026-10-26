@@ -5,7 +5,7 @@ import type { Lang, RouteKey } from '../i18n';
 export const site = {
   name: 'Gemeinschaftspraxis Immensen',
   doctors: 'Dr. med. Ilsemarie Horst & Renke Harms',
-  url: 'https://www.praxis-immensen.de',
+  url: import.meta.env.SITE,
   street: 'Bauernstraße 36',
   zip: '31275',
   city: 'Lehrte-Immensen',

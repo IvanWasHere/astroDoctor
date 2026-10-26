@@ -2,8 +2,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+const base = '/astroDoctor';
+
 export default defineConfig({
-  site: 'https://www.praxis-immensen.de',
+  // GitHub Pages: https://ivanwashere.github.io/astroDoctor/
+  site: 'https://ivanwashere.github.io',
+  base,
   trailingSlash: 'always',
   i18n: {
     locales: ['de', 'en'],
@@ -19,6 +23,6 @@ export default defineConfig({
   build: { inlineStylesheets: 'always' },
   // Alte WordPress-Adressen weiterleiten
   redirects: {
-    '/kontakt/kontaktformular/': '/kontakt/#formular',
+    '/kontakt/kontaktformular/': `${base}/kontakt/#formular`,
   },
 });

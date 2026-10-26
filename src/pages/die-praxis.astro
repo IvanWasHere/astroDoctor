@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
+import { routes } from '../i18n';
 
 const values = [
   {
@@ -75,7 +76,7 @@ const values = [
       <strong>Dr. Ilsemarie Horst und Renke Harms</strong>
     </p>
 
-    <p><a href="/digitalisierung/">Wie wir die Praxis digitalisieren →</a></p>
+    <p><a href={routes.digital.de}>Wie wir die Praxis digitalisieren →</a></p>
   </article>
 </Base>
 

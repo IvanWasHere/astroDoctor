@@ -5,7 +5,7 @@ import Icon from '../components/Icon.astro';
 import OpenStatus from '../components/OpenStatus.astro';
 import LangSwitch from '../components/LangSwitch.astro';
 import { site, navKeys, hours, directionsLink, phoneFor, faxFor } from '../data/site';
-import { getLang, useT, routes, alternates, languages, type Lang } from '../i18n';
+import { getLang, useT, routes, alternates, languages, url, type Lang } from '../i18n';
 
 interface Props {
   title?: string;
@@ -57,7 +57,7 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     {(Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={new URL(alt[l], site.url).href} />)}
     <link rel="alternate" hreflang="x-default" href={new URL(alt.de, site.url).href} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <meta name="theme-color" content="#11555b" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={languages[lang].og} />
