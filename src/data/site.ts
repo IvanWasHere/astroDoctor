@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import type { Lang, RouteKey } from '../i18n';
 import photoHorst from '../assets/praxis/dr-horst.jpg';
+import photoTomic from '../assets/praxis/dr-tomic.webp';
 
 export const site = {
   name: 'Gemeinschaftspraxis Immensen',
@@ -80,6 +81,7 @@ export const team: {
   {
     name: 'Dr. med. Jelena Tomic',
     initials: 'JT',
+    photo: photoTomic,
     role: {
       de: 'Hausärztin · Fachärztin für Allgemeinmedizin · Partnerin seit 1. Juli 2026',
       en: 'Family doctor · Specialist in general medicine · Partner since 1 July 2026',
